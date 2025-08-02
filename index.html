@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>How to train your AI</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            background-size: 400% 400%;
+            animation: rainbow 3s ease infinite;
+            font-family: "Comic Sans MS", cursive;
+            margin: 0;
+            padding: 20px;
+            color: #000080;
+        }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            text-shadow: 3px 3px 0px #ff0000, 6px 6px 0px #00ff00;
+            color: #ffff00;
+            animation: blink 1s linear infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+        
+        .main-table {
+            width: 100%;
+            border: 5px solid #ff0000;
+            background-color: #ffffff;
+            cellpadding: 10;
+            cellspacing: 5;
+        }
+        
+        .header-cell {
+            background-color: #00ffff;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #800080;
+            border: 3px solid #ff0000;
+            padding: 15px;
+        }
+        
+        .image-cell {
+            background-color: #ffff00;
+            border: 2px dashed #ff00ff;
+            padding: 10px;
+            text-align: center;
+            vertical-align: top;
+        }
+        
+        .image-frame {
+            border: 4px ridge #808080;
+            display: inline-block;
+            background-color: #c0c0c0;
+            padding: 5px;
+            margin: 10px;
+        }
+        
+        .retro-img {
+            border: 2px inset #808080;
+            max-width: 300px;
+            height: auto;
+        }
+        
+        .image-title {
+            background-color: #ff0000;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 5px;
+            margin-top: 10px;
+            border: 2px outset #ff0000;
+            text-transform: uppercase;
+        }
+        
+        .marquee-text {
+            background-color: #000080;
+            color: #ffff00;
+            padding: 10px;
+            border: 3px solid #ff0000;
+            margin: 20px 0;
+        }
+        
+        .counter {
+            background-color: #00ff00;
+            color: #ff0000;
+            font-weight: bold;
+            padding: 5px 10px;
+            border: 2px solid #000000;
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        .flash {
+            animation: flash 0.5s linear infinite;
+        }
+        
+        @keyframes flash {
+            0%, 50% { background-color: #ff0000; color: #ffffff; }
+            51%, 100% { background-color: #ffff00; color: #ff0000; }
+        }
+        
+        .le-button {
+            background-color: #c0c0c0;
+            border: 3px outset #c0c0c0;
+            color: #000000;
+            font-family: "Comic Sans MS", cursive;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        
+        .le-button:hover {
+            background-color: #ffffff;
+            border: 3px inset #c0c0c0;
+        }
+        
+        .le-button:active {
+            background-color: #808080;
+            border: 3px inset #808080;
+        }
+        
+        .auto-btn {
+            background-color: #00ff00;
+            border: 3px outset #00ff00;
+        }
+        
+        .auto-btn:hover {
+            background-color: #80ff80;
+        }
+        
+        .slideshow-container {
+            text-align: center;
+        }
+        
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        
+        .screen-shake {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confetti-fall 3s linear infinite;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .confetti:nth-child(odd) {
+            background: #ff0;
+            animation-delay: -0.5s;
+        }
+        
+        .confetti:nth-child(even) {
+            background: #0ff;
+            animation-delay: -1s;
+        }
+        
+        .confetti:nth-child(3n) {
+            background: #f00;
+            animation-delay: -1.5s;
+        }
+        
+        .confetti:nth-child(4n) {
+            background: #0f0;
+            animation-delay: -2s;
+        }
+        
+        .confetti:nth-child(5n) {
+            background: #00f;
+            animation-delay: -2.5s;
+        }
+    </style>
+</head>
+<body>
+    
+    <center>
+        <h1>is this a muffin or a chihuahua?</h1>
+        
+        <div class="marquee-text">
+            <marquee>we might use this to train our ai pls guess frfr</marquee>
+        </div>
+        
+        <table class="main-table" border="3" cellpadding="10" cellspacing="5">
+            <tr>
+                <td class="header-cell">
+                    <font size="5" color="#800080">hi pls train our ai</font><br>
+                    <span class="counter flash">VISITOR #00000000001</span>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="image-cell">
+                    <!-- Main Image Display -->
+                    <div class="slideshow-container">
+                        <div class="image-frame" style="margin: 20px auto; max-width: 500px;">
+                            <img id="currentImage" src="images/img_0_0.jpg" class="retro-img" alt="Current Image" style="max-width: 100%; height: auto;">
+                            <div class="image-title" id="imageTitle">some image for you to guess lol</div>
+                        </div>
+                        
+
+                        <table border="2" bgcolor="#c0c0c0" cellpadding="15" style="margin: 20px auto;">
+                            <tr>
+                                <td>
+                                    <button class="le-button" onclick="muffin()" id="prevBtn">
+                                        muffin duh
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="counter" style="margin: 0 20px; font-size: 18px;">
+                                        <span id="currentIndex">1</span> of <span id="totalImages">11</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="le-button" onclick="chihuhua()" id="nextBtn">
+                                        chihuahua
+                                    </button>
+                                </td>
+                               
+                            </tr>
+                        </table>
+                        
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr>
+                <td class="image-cell">
+                    <table border="2" bgcolor="#ff00ff" cellpadding="10" style="margin: 10px auto;">
+                        <tr>
+                            <td bgcolor="#ffff00" style="text-align: center;">
+                                <div style="color: #800080; font-weight: bold; font-size: 18px; margin-bottom: 10px;">
+                                    nothing to see here
+                                </div>
+                                <div style="margin: 10px 0;">
+                                    <span class="counter" style="background-color: #00ff00; color: #000080;">
+                                        Guesses Recorded: <span id="resultsCount">0</span>
+                                    </span>
+                                </div>
+                                <div style="margin: 10px 0;">
+                                    <button class="le-button" onclick="generateCSV()" style="background-color: #00ff00;">
+                                        DOWNLOAD CSV
+                                    </button>
+                                    <button class="le-button" onclick="clearResults()" style="background-color: #ff8080;">
+                                        CLEAR DATA
+                                    </button>
+                                </div>
+                               
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+        <br><br>
+        
+        
+    </center>
+    
+    <script>
+        const images = [
+            { src: "images/img_0_0.jpg", name: "img_0_0.jpg" },
+            { src: "images/img_0_1.jpg", name: "img_0_1.jpg" },
+            { src: "images/img_0_2.jpg", name: "img_0_2.jpg" },
+            { src: "images/img_0_6.jpg", name: "img_0_6.jpg" },
+            { src: "images/img_0_7.jpg", name: "img_0_7.jpg" },
+            { src: "images/img_0_8.jpg", name: "img_0_8.jpg" },
+            { src: "images/img_0_9.jpg", name: "img_0_9.jpg" },
+            { src: "images/img_0_10.jpg", name: "img_0_10.jpg" },
+            { src: "images/img_0_12.jpg", name: "img_0_12.jpg" },
+            { src: "images/img_0_21.jpg", name: "img_0_21.jpg" },
+            { src: "images/img_0_22.jpg", name: "img_0_22.jpg" }
+        ];
+        
+        let currentImageIndex = 0;
+        let slideshowInterval = null;
+        let finalPhoto = 0;
+        let guessResults = []; 
+        let sessionId = Date.now();
+        
+        function updateImage() {
+            const currentImage = document.getElementById('currentImage');
+            const imageTitle = document.getElementById('imageTitle');
+            const currentIndex = document.getElementById('currentIndex');
+            const totalImages = document.getElementById('totalImages');
+            const imageCounter = document.getElementById('imageCounter');
+    
+            currentImage.src = images[currentImageIndex].src;
+            const imageNumber = String(currentImageIndex + 1).padStart(3, '0');
+            
+
+            currentIndex.textContent = currentImageIndex + 1;
+            totalImages.textContent = images.length;
+            imageCounter.textContent = `IMAGE: ${currentImageIndex + 1}/${images.length}`;
+            
+
+
+            clearConfetti();
+            
+            imageTitle.textContent = "some image for you to guess lol";
+            if (currentImageIndex === images.length - 1) {
+                createConfetti();
+            }
+        }
+        
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateImage();
+        }
+        
+        function muffin() {
+            recordGuess('muffin');
+            if (currentImageIndex === images.length - 1) {
+                showWinMessage();
+            } else {
+                nextImage();
+            }
+        }
+
+        function chihuhua() {
+            recordGuess('chihuahua');
+        
+            if (currentImageIndex === images.length - 1) {
+                showWinMessage();
+            } else {
+                nextImage();
+            }
+        }
+        
+        function recordGuess(guess) {
+            const timestamp = new Date().toISOString();
+            const currentImage = images[currentImageIndex];
+            
+            guessResults.push({
+                sessionId: sessionId,
+                timestamp: timestamp,
+                imageIndex: currentImageIndex + 1,
+                imageName: currentImage.name,
+                guess: guess
+            });
+            
+            updateResultsDisplay();
+            console.log(`Recorded guess: ${guess} for ${currentImage.name}`);
+        }
+        
+        function generateCSV() {
+            if (guessResults.length === 0) {
+                alert('No guesses');
+                return;
+            }
+            
+
+            const headers = ['SessionId', 'Timestamp', 'ImageIndex', 'ImageName', 'Guess'];
+            
+
+            const csvData = [
+                headers.join(','),
+                ...guessResults.map(result => [
+                    result.sessionId,
+                    result.timestamp,
+                    result.imageIndex,
+                    result.imageName,
+                    result.guess
+                ].join(','))
+            ].join('\n');
+            
+
+            const blob = new Blob([csvData], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `muffin_chihuahua_results_${sessionId}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            console.log('CSV exported with', guessResults.length, 'results');
+        }
+        
+        function clearResults() {
+            if (confirm('Are you sure you want to clear all recorded guesses?')) {
+                guessResults = [];
+                console.log('Results cleared');
+                updateResultsDisplay();
+            }
+        }
+        
+        function updateResultsDisplay() {
+            const resultsCount = document.getElementById('resultsCount');
+            if (resultsCount) {
+                resultsCount.textContent = guessResults.length;
+            }
+        }
+        
+
+        // function startScreenShake() {
+        //     document.body.classList.add('screen-shake');
+        // }
+        
+        // function stopScreenShake() {
+        //     document.body.classList.remove('screen-shake');
+        // }
+        
+        function createConfetti() {
+            for (let i = 0; i < 800; i++) {
+                {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.opacity = Math.random();
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        if (confetti.parentNode) {
+                            confetti.parentNode.removeChild(confetti);
+                        }
+                    }, 2000);
+                }
+            }
+        }
+        
+        function clearConfetti() {
+            const existingConfetti = document.querySelectorAll('.confetti');
+            existingConfetti.forEach(confetti => {
+                if (confetti.parentNode) {
+                    confetti.parentNode.removeChild(confetti);
+                }
+            });
+        }
+        
+        function showWinMessage() {
+            const imageTitle = document.getElementById('imageTitle');
+            imageTitle.textContent = "lol thanks for free labour";
+            imageTitle.style.fontSize = "24px";
+            imageTitle.style.animation = "blink 0.5s linear infinite";
+            
+
+            createConfetti();
+            setTimeout(() => {
+                alert("🎉 YAY YOU WON! 🎉\nThanks for helping train our AI!");
+            }, 500);
+            
+            setTimeout(() => {
+                currentImageIndex = 0;
+                updateImage();
+            }, 3000);
+        }
+        
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') {
+                chihuhua();
+            } else if (event.key === 'ArrowLeft') {
+                muffin()
+            } else if (event.key === ' ') {
+                event.preventDefault();
+            }
+        });
+        
+        updateImage();
+        updateResultsDisplay();
+    </script>
+    
+</body>
+</html>
